@@ -6,4 +6,7 @@ using UnityEngine.UIElements;
 public class CharacterInfo : MonoBehaviour
 {
     public uint uid;
+
+
+
 }
