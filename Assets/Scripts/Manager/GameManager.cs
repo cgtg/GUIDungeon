@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public uint selectedCharacter;
+    private string nickname;
+    private uint selectedCharacter;
 
     private void Awake()
     {
@@ -23,6 +24,9 @@ public class GameManager : MonoBehaviour
             return;
         }
         Debug.LogWarning("== GameManager Awake() off");
+
+        nickname = "test";
+        selectedCharacter = 1000000;
     }
 
     // Start is called before the first frame update
@@ -37,7 +41,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-
+    public void SetGame(string name, uint uid)
+    {
+        nickname = name;
+        selectedCharacter = uid;
+    }
 
 
 }

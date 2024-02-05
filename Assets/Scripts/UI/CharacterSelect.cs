@@ -13,11 +13,11 @@ public class CharacterSelect : MonoBehaviour
     private List<Animator> CharacterAnim = new List<Animator>();
     private Camera camera;
 
-    private bool isSelected = false;
+    private uint selectedUID = 0;
+
     private void Awake()
     {
         camera = Camera.main;
-
         //selectButtons = GetComponentsInChildren<Button>();
         DataManager.instance.OnDataLoadComplete += CreateCharacterList;
         Debug.LogWarning("== CharacterSelect Awake() done");
@@ -41,12 +41,12 @@ public class CharacterSelect : MonoBehaviour
             uint uid = collidedObject.GetComponent<CharacterInfo>().uid;
             if (characterInfoPanal.Length > 0)
             {
-                characterInfoPanal[0].GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetCharacterName(uid);
+                characterInfoPanal[0].GetComponent<TMP_InputField>().text = DataManager.instance.GetCharacterName(uid);
                 characterInfoPanal[1].GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetCharacterDesc(uid);
                 characterInfoPanal[2].GetComponent<TextMeshProUGUI>().text = $"HP :\nMP :\nATK :\nDEF :\nCRIT :\nGold :";
                 characterInfoPanal[3].GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetCharacterStat(uid);
             }
-            isSelected = true;
+            selectedUID = uid;
         }
     }
 
@@ -73,8 +73,9 @@ public class CharacterSelect : MonoBehaviour
     private void StartGame()
     {
         Debug.LogWarning("== StartGame");
-        if (isSelected)
+        if (selectedUID > 0)
         {
+            GameManager.instance.SetGame(characterInfoPanal[0].GetComponent<TMP_InputField>().text, selectedUID);
             SceneManager.LoadScene(1);
         }
     }
