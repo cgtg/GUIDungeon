@@ -1,0 +1,9 @@
+﻿uint32,CharacterClass,string,string,int32,uint32,uint32,uint32,uint32,uint32,uint32,string,float,float
+uid,CharacterClass,nameAlias,descAlias,defaultGold,level,HP,MP,atk,def,critical,prefabFile,posX,posY
+-,-,-,-,-,-,-,-,-,-,-,-,-,-
+1000000,Knight,KnightName,KnightDesc,1500,1,120,20,10,7,8,Prefabs/Characters/Knight,-12,-7.5
+1000001,Merchant,MerchantName,MerchantDesc,3000,1,60,40,8,8,10,Prefabs/Characters/Merchant,-8,-7.5
+1000002,Peasant,PeasantName,PeasantDesc,500,1,150,20,7,5,3,Prefabs/Characters/Peasant,-4,-7.5
+1000003,Priest,PriestName,PriestDesc,3000,1,60,80,6,4,5,Prefabs/Characters/Priest,4,-7.5
+1000004,Soldier,SoldierName,SoldierDesc,1000,1,100,20,9,6,7,Prefabs/Characters/Soldier,8,-7.5
+1000005,Thief,ThiefName,ThiefDesc,1500,1,75,40,12,3,10,Prefabs/Characters/Thief,12,-7.5

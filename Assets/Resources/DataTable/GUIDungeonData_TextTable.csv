@@ -1,0 +1,15 @@
+﻿string,string
+keyString,textKR
+-,-
+KnightName,기사
+MerchantName,상인
+PeasantName,농부
+PriestName,성직자
+SoldierName,병사
+ThiefName,도둑
+KnightDesc,신념을 바탕으로 악과 싸우는 용맹한 기사
+MerchantDesc,활발한 거래로 경제를 살리는 상인
+PeasantDesc,대자연과의 조화를 추구하는 농부
+PriestDesc,신의 가르침을 전파하며 악을 퇴치하는 성직자
+SoldierDesc,무쌍한 전투 기술로 왕국을 지휘하는 병사
+ThiefDesc,그림자 속에서 민첩하게 행동하는 도둑
