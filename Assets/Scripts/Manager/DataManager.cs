@@ -12,6 +12,7 @@ public class DataManager : MonoBehaviour
     private string textDataFilePath = "Assets/Resources/DataTable/GUIDungeonData_TextTable.csv";
 
     public Dictionary<uint, CharacterData> characterDataDictionary { get; private set; }
+    public Dictionary<string, string> textDataDictionary { get; private set; }
 
     public event Action OnDataLoadComplete;
 
@@ -30,6 +31,7 @@ public class DataManager : MonoBehaviour
         }
 
         characterDataDictionary = ReadCSVFile();
+        ReadTextData();
         Debug.LogWarning("== DataManager Awake() off");
     }
 
@@ -89,6 +91,39 @@ public class DataManager : MonoBehaviour
         Debug.LogError("CharacterData not found for UID: " + uid);
         return null;
     }
+
+    private void ReadTextData()
+    {
+        textDataDictionary = new Dictionary<string, string>();
+        string[] lines = File.ReadAllLines(textDataFilePath);
+
+        for (int i = 3; i < lines.Length; i++)
+        {
+            string[] fields = lines[i].Split(',');
+            string keyString = fields[0];
+            string textKR = fields[1];
+            textDataDictionary.Add(keyString, textKR);
+        }
+    }
+
+    public string GetTextData(string key)
+    {
+        return textDataDictionary[key];
+    }
+
+    public string GetCharacterName(uint uid)
+    {
+        return textDataDictionary[characterDataDictionary[uid].nameAlias];
+    }
+    public string GetCharacterDesc(uint uid)
+    {
+        return textDataDictionary[characterDataDictionary[uid].descAlias];
+    }
+    public string GetCharacterStat(uint uid)
+    {
+        return $"{characterDataDictionary[uid].HP}\n{characterDataDictionary[uid].MP}\n{characterDataDictionary[uid].atk}\n{characterDataDictionary[uid].def}\n{characterDataDictionary[uid].critical}\n{characterDataDictionary[uid].defaultGold}";
+    }
+
 }
 
 

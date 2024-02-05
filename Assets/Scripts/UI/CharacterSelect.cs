@@ -1,13 +1,19 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CharacterSelect : MonoBehaviour
 {
+    [SerializeField] private GameObject[] characterInfoPanal;
+    public Button startGame;
+
     private List<Animator> CharacterAnim = new List<Animator>();
-    //private Button[] selectButtons;
     private Camera camera;
 
+    private bool isSelected = false;
     private void Awake()
     {
         camera = Camera.main;
@@ -16,28 +22,11 @@ public class CharacterSelect : MonoBehaviour
         DataManager.instance.OnDataLoadComplete += CreateCharacterList;
         Debug.LogWarning("== CharacterSelect Awake() done");
 
+        startGame.onClick.AddListener(StartGame);
     }
 
-    private void Start()
-    {
-        //Debug.Log($"== selectButtons.Length {selectButtons.Length}");
-        //for (int i = 1; i < selectButtons.Length; i++)
-        //{
-        //    Button button = selectButtons[i];
-        //    button.GetComponent<Button>().onClick.AddListener(ActiveSelect);
-        //}
-    }
-
-    //private void OnMouseClick(InputAction.CallbackContext context)
     private void OnMouseClick(InputValue input)
     {
-        //Vector2 mousePosition = context.ReadValue<Vector2>();
-        //Debug.Log(context);
-        // https://www.youtube.com/watch?v=mRkFj8J7y_I
-
-        //Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        //RaycastHit2D hit = Physics2D.Raycast(clickPosition, Vector2.zero, Mathf.Infinity);
-
         RaycastHit2D hit = Physics2D.GetRayIntersection(camera.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if (hit.collider != null)
         {
@@ -48,8 +37,17 @@ public class CharacterSelect : MonoBehaviour
                 obj.SetBool("Walking", false);
             }
             collidedObject.GetComponent<Animator>().SetBool("Walking", true);
-        }
 
+            uint uid = collidedObject.GetComponent<CharacterInfo>().uid;
+            if (characterInfoPanal.Length > 0)
+            {
+                characterInfoPanal[0].GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetCharacterName(uid);
+                characterInfoPanal[1].GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetCharacterDesc(uid);
+                characterInfoPanal[2].GetComponent<TextMeshProUGUI>().text = $"HP :\nMP :\nATK :\nDEF :\nCRIT :\nGold :";
+                characterInfoPanal[3].GetComponent<TextMeshProUGUI>().text = DataManager.instance.GetCharacterStat(uid);
+            }
+            isSelected = true;
+        }
     }
 
     private void CreateCharacterList()
@@ -65,12 +63,20 @@ public class CharacterSelect : MonoBehaviour
             GameObject characterInstance = Instantiate(characterPrefab, characterListObject.transform);
             characterInstance.transform.localPosition = new Vector3(characterData.posX, characterData.posY, 0);
             characterInstance.name = DataManager.instance.characterDataDictionary[uid].characterClass.ToString();
-
+            characterInstance.GetComponent<CharacterInfo>().uid = uid;
             CharacterAnim.Add(characterInstance.GetComponent<Animator>());
         }
 
         //Debug.LogWarning("== CreateCharacterList Done");
     }
 
+    private void StartGame()
+    {
+        Debug.LogWarning("== StartGame");
+        if (isSelected)
+        {
+            SceneManager.LoadScene(1);
+        }
+    }
 
 }
