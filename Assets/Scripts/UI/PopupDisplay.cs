@@ -7,13 +7,13 @@ public class PopupDisplay : MonoBehaviour
     public TextMeshProUGUI text;
     public Button confirmBtn;
 
-    public Item curSelectItem;
+    public ItemSlot curSelectItemSlot;
 
-    public void InitPopup(Item item)
+    public void InitPopup(ItemSlot itemSlot)
     {
-        curSelectItem = item;
+        curSelectItemSlot = itemSlot;
 
-        if (item.isEquiped)
+        if (curSelectItemSlot.curItem.isEquiped)
         {
             text.text = "장착을 해지 하시겠습니까?";
         }
@@ -27,7 +27,8 @@ public class PopupDisplay : MonoBehaviour
 
     public void ToggleItemEquip()
     {
-        curSelectItem.isEquiped = !curSelectItem.isEquiped;
+        curSelectItemSlot.curItem.isEquiped = !curSelectItemSlot.curItem.isEquiped;
+        curSelectItemSlot.ChangeEquipState(curSelectItemSlot.curItem.isEquiped);
         gameObject.SetActive(false);
     }
 }

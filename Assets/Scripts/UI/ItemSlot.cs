@@ -8,7 +8,7 @@ using UnityEngine.XR;
 
 public class ItemSlot : MonoBehaviour
 {
-    private Item curItem;
+    public Item curItem;
 
     [SerializeField] private GameObject icon;
     [SerializeField] private GameObject equip;
@@ -32,7 +32,7 @@ public class ItemSlot : MonoBehaviour
         ChangeEquipState(curItem.isEquiped);
     }
 
-    private void ChangeEquipState(bool isEquiped)
+    public void ChangeEquipState(bool isEquiped)
     {
         equip.SetActive(isEquiped);
     }
@@ -43,7 +43,7 @@ public class ItemSlot : MonoBehaviour
         if (popupDisplay != null)
         {
             Debug.Log("Popup()");
-            popupDisplay.InitPopup(curItem);
+            popupDisplay.InitPopup(this);
         }
     }
 }
