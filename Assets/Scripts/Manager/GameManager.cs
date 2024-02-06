@@ -1,15 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [HideInInspector]
-    public string nickname;
-    [HideInInspector]
-    public uint selectedCharacter;
+    [HideInInspector] public string nickname;
+    [HideInInspector] public uint selectedCharacter;
 
     private void Awake()
     {
@@ -27,22 +23,9 @@ public class GameManager : MonoBehaviour
         }
         Debug.LogWarning("== GameManager Awake() off");
 
-
         // === Set Default ===
         nickname = "test";
-        selectedCharacter = 1000000;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        selectedCharacter = 1000002;
     }
 
     public void SetGame(string name, uint uid)
@@ -50,6 +33,4 @@ public class GameManager : MonoBehaviour
         nickname = name;
         selectedCharacter = uid;
     }
-
-
 }

@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Timeline.Actions.MenuPriority;
+using UnityEngine.TextCore.Text;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -24,6 +23,9 @@ public class CharacterStats : MonoBehaviour
 
     [SerializeField] private GameObject inventoryContent;
     [SerializeField] private PopupDisplay popupDisplay;
+
+    [SerializeField] private GameObject shopPopup;
+    [SerializeField] private TextMeshProUGUI shopPopupText;
 
 
     // 케릭터 스탯 저장
@@ -57,13 +59,20 @@ public class CharacterStats : MonoBehaviour
         uint uid = GameManager.instance.selectedCharacter;
         myPlayer = DataManager.instance.GetCharacterDataByUID(uid);
 
-        SetInitCharacter();
+        SetInitCharacter(uid);
         SetInventory();
         UpdateUI();
     }
 
     private void SetInventory()
     {
+        ItemSlot[] tmp = inventoryContent.GetComponentsInChildren<ItemSlot>();
+        foreach (ItemSlot slot in tmp)
+        {
+            Destroy(slot.gameObject);
+        }
+
+
         foreach (Item item in myItems.Values)
         {
             GameObject itemPrefab = Resources.Load<GameObject>("Prefabs/Items/ItemSlot");
@@ -82,18 +91,23 @@ public class CharacterStats : MonoBehaviour
         // myItems 길이 4로 나눠서 나머지 빈칸 빈슬롯으로 채우기
     }
 
-    private void SetInitCharacter()
+    private void SetInitCharacter(uint uid)
     {
+        CharacterData characterData = DataManager.instance.characterDataDictionary[uid];
+        GameObject characterPrefab = Resources.Load<GameObject>(characterData.prefabFile);
+
+        GameObject characterInstance = Instantiate(characterPrefab, gameObject.transform);
+
+
         AddItem(3000005);
         AddItem(3000006);
-        UpdateUI();
     }
 
     public void UpdateUI()
     {
         calcItemStat();
 
-        coinText.text = string.Format("{0:N0}", myPlayer.defaultGold);
+        coinText.text = string.Format("{0:N0}", myPlayer.gold);
 
         atkText.text = (myPlayer.atk + addAtk).ToString();
         defText.text = (myPlayer.def + addDef).ToString();
@@ -104,6 +118,28 @@ public class CharacterStats : MonoBehaviour
         characterDesc.text = DataManager.instance.GetTextData(myPlayer.descAlias);
         levelText.text = myPlayer.level.ToString();
         //expText.text = myPlayer.
+
+        SetInventory();
+    }
+
+    public bool BuyItem(uint uid)
+    {
+        Item item = DataManager.instance.GetItemDataByUID(uid);
+
+        if (myPlayer.gold >= item.price)
+        {
+            myPlayer.gold -= item.price;
+            AddItem(uid);
+            shopPopupText.text = "구매하였습니다!";
+            shopPopup.SetActive(true);
+            return true;
+        }
+        else
+        {
+            shopPopupText.text = "골드가 부족합니다!";
+            shopPopup.SetActive(true);
+            return false;
+        }
     }
 
 
@@ -111,12 +147,12 @@ public class CharacterStats : MonoBehaviour
     {
         myItems.Add(uid, DataManager.instance.GetItemDataByUID(uid));
         myItems[uid].isBought = true;
-        myItems[uid].isEquiped = true;
         UpdateUI();
     }
 
     public void RemoveItem(uint uid)
     {
+        myItems[uid].isBought = false;
         myItems.Remove(uid);
         UpdateUI();
     }

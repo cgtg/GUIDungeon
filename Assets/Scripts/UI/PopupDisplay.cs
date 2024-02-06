@@ -34,7 +34,7 @@ public class PopupDisplay : MonoBehaviour
         }
         else if (curSelectItemSlot.curItem.def > 0)
         {
-            itemStat.text = $"ATK +{curSelectItemSlot.curItem.atk}";
+            itemStat.text = $"DEF +{curSelectItemSlot.curItem.def}";
         }
 
         if (curSelectItemSlot.curItem.isEquiped)

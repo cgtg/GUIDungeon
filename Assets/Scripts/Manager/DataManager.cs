@@ -124,7 +124,7 @@ public class DataManager : MonoBehaviour
     }
     public string GetCharacterStat(uint uid)
     {
-        return $"{characterDataDictionary[uid].HP}\n{characterDataDictionary[uid].MP}\n{characterDataDictionary[uid].atk}\n{characterDataDictionary[uid].def}\n{characterDataDictionary[uid].critical}\n{string.Format("{0:N0}", characterDataDictionary[uid].defaultGold)}";
+        return $"{characterDataDictionary[uid].HP}\n{characterDataDictionary[uid].MP}\n{characterDataDictionary[uid].atk}\n{characterDataDictionary[uid].def}\n{characterDataDictionary[uid].critical}\n{string.Format("{0:N0}", characterDataDictionary[uid].gold)}";
     }
 
 
@@ -172,7 +172,7 @@ public class CharacterData
     public string characterClass;
     public string nameAlias;
     public string descAlias;
-    public int defaultGold;
+    public int gold;
     public int level;
     public uint HP;
     public uint MP;
@@ -189,7 +189,7 @@ public class CharacterData
         characterClass = _characterClass;
         nameAlias = _nameAlias;
         descAlias = _descAlias;
-        defaultGold = _defaultGold;
+        gold = _defaultGold;
         level = _level;
         HP = _HP;
         MP = _MP;
