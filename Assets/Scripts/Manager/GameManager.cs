@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    private string nickname;
-    private uint selectedCharacter;
+    [HideInInspector]
+    public string nickname;
+    [HideInInspector]
+    public uint selectedCharacter;
 
     private void Awake()
     {
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
         }
         Debug.LogWarning("== GameManager Awake() off");
 
+
+        // === Set Default ===
         nickname = "test";
         selectedCharacter = 1000000;
     }

@@ -10,8 +10,10 @@ public class DataManager : MonoBehaviour
     // 파일 리스트
     private string characterDataFilePath = "Assets/Resources/DataTable/GUIDungeonData_Character.csv";
     private string textDataFilePath = "Assets/Resources/DataTable/GUIDungeonData_TextTable.csv";
+    private string itemDataFilePath = "Assets/Resources/DataTable/GUIDungeonData_ItemTable.csv";
 
     public Dictionary<uint, CharacterData> characterDataDictionary { get; private set; }
+    public Dictionary<uint, Item> itemDataDictionary { get; private set; }
     public Dictionary<string, string> textDataDictionary { get; private set; }
 
     public event Action OnDataLoadComplete;
@@ -32,6 +34,7 @@ public class DataManager : MonoBehaviour
 
         characterDataDictionary = ReadCSVFile();
         ReadTextData();
+        ReadItemData();
         Debug.LogWarning("== DataManager Awake() off");
     }
 
@@ -121,14 +124,48 @@ public class DataManager : MonoBehaviour
     }
     public string GetCharacterStat(uint uid)
     {
-        return $"{characterDataDictionary[uid].HP}\n{characterDataDictionary[uid].MP}\n{characterDataDictionary[uid].atk}\n{characterDataDictionary[uid].def}\n{characterDataDictionary[uid].critical}\n{characterDataDictionary[uid].defaultGold}";
+        return $"{characterDataDictionary[uid].HP}\n{characterDataDictionary[uid].MP}\n{characterDataDictionary[uid].atk}\n{characterDataDictionary[uid].def}\n{characterDataDictionary[uid].critical}\n{string.Format("{0:N0}", characterDataDictionary[uid].defaultGold)}";
     }
 
+
+
+    private void ReadItemData()
+    {
+        itemDataDictionary = new Dictionary<uint, Item>();
+        string[] lines = File.ReadAllLines(itemDataFilePath);
+
+        for (int i = 3; i < lines.Length; i++)
+        {
+            string[] fields = lines[i].Split(',');
+            uint uid = uint.Parse(fields[0]);
+            string itemType = fields[1];
+            string nameAlias = fields[2];
+            string descAlias = fields[3];
+            int price = int.Parse(fields[4]);
+            string prefabFile = fields[5];
+            int atk = int.Parse(fields[6]);
+            int def = int.Parse(fields[7]);
+
+            Item item = new Item(uid, itemType, nameAlias, descAlias, price, prefabFile, atk, def);
+            itemDataDictionary.Add(uid, item);
+        }
+    }
+
+    internal Item GetItemDataByUID(uint uid)
+    {
+        if (itemDataDictionary.ContainsKey(uid))
+        {
+            return itemDataDictionary[uid];
+        }
+
+        Debug.LogError("not found for UID: " + uid);
+        return null;
+    }
 }
 
 
 
-[System.Serializable]
+//[System.Serializable]
 public class CharacterData
 {
     public uint uid;
@@ -162,5 +199,50 @@ public class CharacterData
         prefabFile = _prefabFile;
         posX = _posX;
         posY = _posY;
+    }
+}
+
+public enum ItemType
+{
+    Weapon,
+    Shield
+}
+
+//[System.Serializable]
+public class Item
+{
+    public uint uid;
+    public string itemType;
+    public string nameAlias;
+    public string descAlias;
+    public int price;
+    public string prefabFile;
+    public int atk;
+    public int def;
+    public bool isBought;
+    public bool isEquiped;
+
+    public Item(uint _uid, string _itemType, string _nameAlias, string _descAlias, int _price, string _prefabFile, int _atk, int _def)
+    {
+        uid = _uid;
+        itemType = _itemType;
+        nameAlias = _nameAlias;
+        descAlias = _descAlias;
+        price = _price;
+        prefabFile = _prefabFile;
+        atk = _atk;
+        def = _def;
+        isBought = false;
+        isEquiped = false;
+    }
+
+    public void ToggleEquiped()
+    {
+        isEquiped = !isEquiped;
+    }
+
+    public void ToggleBought()
+    {
+        isBought = !isBought;
     }
 }
