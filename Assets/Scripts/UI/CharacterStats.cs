@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class CharacterStats : MonoBehaviour
 {
+    public static CharacterStats instance;
+
     [SerializeField] private TextMeshProUGUI coinText;
 
     [SerializeField] private TextMeshProUGUI atkText;
@@ -25,12 +28,25 @@ public class CharacterStats : MonoBehaviour
 
     // 케릭터 스탯 저장
     CharacterData myPlayer;
+    private int addAtk;
+    private int addDef;
+
     private Dictionary<ItemType, uint> equipItems = new Dictionary<ItemType, uint>();
     public Dictionary<uint, Item> myItems = new Dictionary<uint, Item>();
 
     private void Awake()
     {
-        Debug.LogWarning("== CharacterInfo Awake()");
+        Debug.LogWarning("== CharacterStats Awake() on");
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     // 스탯 상태 셋
@@ -43,7 +59,7 @@ public class CharacterStats : MonoBehaviour
 
         SetInitCharacter();
         SetInventory();
-        SetUI();
+        UpdateUI();
     }
 
     private void SetInventory()
@@ -68,21 +84,19 @@ public class CharacterStats : MonoBehaviour
 
     private void SetInitCharacter()
     {
-        myItems.Add(3000005, DataManager.instance.GetItemDataByUID(3000005));
-        myItems[3000005].isBought = true;
-        myItems[3000005].isEquiped = true;
-
-        myItems.Add(3000006, DataManager.instance.GetItemDataByUID(3000006));
-        myItems[3000006].isBought = true;
-        myItems[3000006].isEquiped = true;
+        AddItem(3000005);
+        AddItem(3000006);
+        UpdateUI();
     }
 
-    private void SetUI()
+    public void UpdateUI()
     {
+        calcItemStat();
+
         coinText.text = string.Format("{0:N0}", myPlayer.defaultGold);
 
-        atkText.text = myPlayer.atk.ToString();
-        defText.text = myPlayer.def.ToString();
+        atkText.text = (myPlayer.atk + addAtk).ToString();
+        defText.text = (myPlayer.def + addDef).ToString();
         hpText.text = myPlayer.HP.ToString();
         critText.text = myPlayer.critical.ToString();
 
@@ -91,6 +105,36 @@ public class CharacterStats : MonoBehaviour
         levelText.text = myPlayer.level.ToString();
         //expText.text = myPlayer.
     }
+
+
+    public void AddItem(uint uid)
+    {
+        myItems.Add(uid, DataManager.instance.GetItemDataByUID(uid));
+        myItems[uid].isBought = true;
+        myItems[uid].isEquiped = true;
+        UpdateUI();
+    }
+
+    public void RemoveItem(uint uid)
+    {
+        myItems.Remove(uid);
+        UpdateUI();
+    }
+
+    public void calcItemStat()
+    {
+        addAtk = 0;
+        addDef = 0;
+        foreach (Item item in myItems.Values)
+        {
+            if (item.isEquiped)
+            {
+                addAtk += item.atk;
+                addDef += item.def;
+            }
+        }
+    }
+
 }
 
 

@@ -235,14 +235,4 @@ public class Item
         isBought = false;
         isEquiped = false;
     }
-
-    public void ToggleEquiped()
-    {
-        isEquiped = !isEquiped;
-    }
-
-    public void ToggleBought()
-    {
-        isBought = !isBought;
-    }
 }

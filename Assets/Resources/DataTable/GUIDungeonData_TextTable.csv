@@ -13,3 +13,21 @@ PeasantDesc,대자연과의 조화를 추구하는 농부
 PriestDesc,신의 가르침을 전파하며 악을 퇴치하는 성직자
 SoldierDesc,무쌍한 전투 기술로 왕국을 지휘하는 병사
 ThiefDesc,그림자 속에서 민첩하게 행동하는 도둑
+Axe,전투도끼
+Bow,활
+Dagger,대거
+Mace,메이스
+Staff,스태프
+Sword,검
+Wand,완드
+Warhammer,워해머
+Shield,방패
+AxeDesc,공격력을 올려준다
+BowDesc,공격력을 올려준다
+DaggerDesc,공격력을 올려준다
+MaceDesc,공격력을 올려준다
+StaffDesc,공격력을 올려준다
+SwordDesc,공격력을 올려준다
+WandDesc,공격력을 올려준다
+WarhammerDesc,공격력을 올려준다
+ShieldDesc,방어력을 올려준다

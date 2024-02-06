@@ -42,7 +42,7 @@ public class ItemSlot : MonoBehaviour
 
         if (popupDisplay != null)
         {
-            Debug.Log("Popup()");
+            //Debug.Log("Popup()");
             popupDisplay.InitPopup(this);
         }
     }
