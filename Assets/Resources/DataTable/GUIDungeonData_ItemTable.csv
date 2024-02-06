@@ -1,0 +1,12 @@
+﻿uint,ItemType,string,string,int32,string,int32,int32
+uid,ItemType,nameAlias,descAlias,price,prefabFile,atk,def
+-,-,-,-,-,-,-,-
+3000000,Weapon,Axe,AxeDesc,200,Prefabs/Items/Axe,20,0
+3000001,Weapon,Bow,BowDesc,100,Prefabs/Items/Bow,10,0
+3000002,Weapon,Dagger,DaggerDesc,150,Prefabs/Items/Dagger,15,0
+3000003,Weapon,Mace,MaceDesc,100,Prefabs/Items/Mace,10,0
+3000004,Weapon,Staff,StaffDesc,150,Prefabs/Items/Staff,15,0
+3000005,Weapon,Sword,SwordDesc,200,Prefabs/Items/Sword,20,0
+3000006,Weapon,Wand,WandDesc,150,Prefabs/Items/Wand,15,0
+3000007,Weapon,Warhammer,WarhammerDesc,250,Prefabs/Items/Warhammer,25,0
+3100000,Shield,Shield,ShieldDesc,200,Prefabs/Items/Shield,0,50
