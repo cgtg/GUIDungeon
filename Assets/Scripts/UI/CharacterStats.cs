@@ -63,6 +63,7 @@ public class CharacterStats : MonoBehaviour
 
     private void SetInventory()
     {
+        // XXX: 설계자체가 잘못됨
         ItemSlot[] tmp = inventoryContent.GetComponentsInChildren<ItemSlot>();
         foreach (ItemSlot slot in tmp)
         {
