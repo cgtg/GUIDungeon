@@ -20,9 +20,16 @@ Visual Studio Community 2022
 
 ## 사용 에셋
 
+### 캐릭터
 https://assetstore.unity.com/packages/2d/characters/miniature-army-2d-v-1-medieval-style-72935  
+
+### GUI
 https://assetstore.unity.com/packages/2d/gui/icons/simple-buttons-gui-kit-203393  
 https://assetstore.unity.com/packages/2d/gui/icons/flat-rpg-icons-pack-1-weapons-224442  
+https://assetstore.unity.com/packages/2d/gui/fantasy-wooden-gui-free-103811  
+https://assetstore.unity.com/packages/2d/gui/icons/skill-and-potions-icon-pack-82233  
+
+### 배경이미지
 https://assetstore.unity.com/packages/2d/environments/free-2d-cartoon-parallax-background-205812  
 
 ## 스크린샷
